@@ -1,5 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+
+const {width} = Dimensions.get('window');
+// boton = 80 + 10 + 10 + 10 + 10
+const largo = width - 120 - 120;
 
 interface Props {
   texto: string;
@@ -15,12 +25,15 @@ export const BotonCalc = ({
   accion,
 }: Props) => {
   return (
-    <TouchableOpacity activeOpacity={0.5} onPress={() => accion(texto)}>
+    <TouchableOpacity
+      delayLongPress={300}
+      activeOpacity={0.5}
+      onPress={() => accion(texto)}>
       <View
         style={{
           ...styles.boton,
           backgroundColor: color,
-          width: ancho ? 160 : 80,
+          width: ancho ? largo : 80,
         }}>
         <Text
           style={{
