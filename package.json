@@ -2,6 +2,21 @@
   "name": "calculadora",
   "version": "0.0.1",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jreyesdev/calculadora.git"
+  },
+  "keywords": [
+    "calculadora",
+    "react-native"
+  ],
+  "author": {
+    "name": "Jesus Reyes",
+    "url": "https://github.com/jreyesdev/calculadora.git"
+  },
+  "engines": {
+    "node": "^16.13.0"
+  },
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
