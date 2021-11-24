@@ -11,7 +11,28 @@ export const CalculadoraScreen = () => {
   };
 
   const armaNumero = (numTex: string) => {
+    // Solo un punto
+    if (numero.includes('.') && numTex === '.') return;
+    // Si inicia con 0 o -
+    if (numero.startsWith('0') || numero.startsWith('-0')) {
+      // Evita muchos ceros al inicio o muchos puntos
+      if (numTex === '0' && !numero.includes('.')) return;
+      // Sustituye a solo 0 o -0
+      if (numTex !== '.') {
+        if (numero.startsWith('-0.') || numero.startsWith('0.')) {
+          setNumero(numero + numTex);
+          return;
+        }
+        setNumero(numero.startsWith('-') ? '-' + numTex : numTex);
+        return;
+      }
+    }
     setNumero(numero + numTex);
+  };
+
+  /** Cambia signo a resultado o numero actual */
+  const cambiaSigno = () => {
+    setNumero(numero.includes('-') ? numero.replace('-', '') : '-' + numero);
   };
 
   return (
@@ -23,15 +44,15 @@ export const CalculadoraScreen = () => {
       {/** BOTONES */}
       <View style={styles.fila}>
         <BotonCalc texto="C" color="#9B9B9B" accion={limpiar} />
-        <BotonCalc texto="+/-" color="#9B9B9B" accion={limpiar} />
-        <BotonCalc texto="Del" color="#9B9B9B" accion={limpiar} />
-        <BotonCalc texto="&#247" color="#FF9427" accion={limpiar} />
+        <BotonCalc texto="+/-" color="#9B9B9B" accion={cambiaSigno} />
+        <BotonCalc texto="del" color="#9B9B9B" accion={limpiar} />
+        <BotonCalc texto="&divide;" color="#FF9427" accion={limpiar} />
       </View>
       <View style={styles.fila}>
         <BotonCalc texto="7" accion={armaNumero} />
+        <BotonCalc texto="8" accion={armaNumero} />
         <BotonCalc texto="9" accion={armaNumero} />
-        <BotonCalc texto="9" accion={armaNumero} />
-        <BotonCalc texto="x" color="#FF9427" accion={limpiar} />
+        <BotonCalc texto="&times;" color="#FF9427" accion={limpiar} />
       </View>
       <View style={styles.fila}>
         <BotonCalc texto="4" accion={armaNumero} />
