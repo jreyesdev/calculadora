@@ -12,7 +12,10 @@ enum Operadores {
 export const CalculadoraScreen = () => {
   const [numero, setNumero] = useState('0');
   const [numOperacion, setNumOperacion] = useState('0');
+
   const ultimoOperador = useRef<Operadores>();
+  console.log('ultimoOperador: ');
+  console.log(ultimoOperador.current);
 
   const limpiar = () => {
     setNumero('0');
@@ -53,6 +56,38 @@ export const CalculadoraScreen = () => {
       }
     }
     setNumero(numero.slice(0, -1));
+  };
+
+  /** Calcula operacion */
+  const calcular = () => {
+    if (numOperacion.startsWith('Error')) {
+      setNumOperacion('0');
+      setNumero('0');
+      return;
+    }
+    const num1 = Number(numOperacion);
+    const num2 = Number(numero);
+    let ant = '0';
+    switch (ultimoOperador.current) {
+      case Operadores.sum:
+        setNumero(`${num1 + num2}`);
+        break;
+      case Operadores.res:
+        setNumero(`${num1 - num2}`);
+        break;
+      case Operadores.mul:
+        setNumero(`${num1 * num2}`);
+        break;
+      case Operadores.div:
+        if (num2) {
+          setNumero(`${num1 / num2}`);
+        } else {
+          ant = 'Error div 0';
+          setNumero('0');
+        }
+        break;
+    }
+    setNumOperacion(ant);
   };
 
   /** Asigna numero pequeño */
@@ -118,7 +153,7 @@ export const CalculadoraScreen = () => {
       <View style={styles.fila}>
         <BotonCalc texto="0" ancho accion={armaNumero} />
         <BotonCalc texto="." accion={armaNumero} />
-        <BotonCalc texto="=" color="#FF9427" accion={limpiar} />
+        <BotonCalc texto="=" color="#FF9427" accion={calcular} />
       </View>
     </View>
   );
