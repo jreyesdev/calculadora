@@ -79,11 +79,11 @@ export const useCalculadora = () => {
           setNumero(`${num1 / num2}`);
         } else {
           ant = 'Error div 0';
-          ultimoOperador.current = undefined;
           setNumero('0');
         }
         break;
     }
+    ultimoOperador.current = undefined;
     setNumOperacion(ant);
   };
 
