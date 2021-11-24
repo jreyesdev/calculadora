@@ -25,10 +25,7 @@ export const BotonCalc = ({
   accion,
 }: Props) => {
   return (
-    <TouchableOpacity
-      delayLongPress={300}
-      activeOpacity={0.5}
-      onPress={() => accion(texto)}>
+    <TouchableOpacity activeOpacity={0.7} onPress={() => accion(texto)}>
       <View
         style={{
           ...styles.boton,
