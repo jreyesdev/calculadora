@@ -35,6 +35,17 @@ export const CalculadoraScreen = () => {
     setNumero(numero.includes('-') ? numero.replace('-', '') : '-' + numero);
   };
 
+  /** Borra ultimo digito */
+  const borrar = () => {
+    if (numero.length < 3) {
+      if (numero.startsWith('-') || numero.length === 1) {
+        setNumero('0');
+        return;
+      }
+    }
+    setNumero(numero.slice(0, -1));
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.operacion}>{numOperacion}</Text>
@@ -45,7 +56,7 @@ export const CalculadoraScreen = () => {
       <View style={styles.fila}>
         <BotonCalc texto="C" color="#9B9B9B" accion={limpiar} />
         <BotonCalc texto="+/-" color="#9B9B9B" accion={cambiaSigno} />
-        <BotonCalc texto="del" color="#9B9B9B" accion={limpiar} />
+        <BotonCalc texto="del" color="#9B9B9B" accion={borrar} />
         <BotonCalc texto="&divide;" color="#FF9427" accion={limpiar} />
       </View>
       <View style={styles.fila}>
