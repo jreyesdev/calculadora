@@ -1,121 +1,22 @@
-import React, {useRef, useState} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {BotonCalc} from '../components/BotonCalc';
-
-enum Operadores {
-  sum,
-  res,
-  mul,
-  div,
-}
+import {useCalculadora} from '../hooks/useCalculadora';
 
 export const CalculadoraScreen = () => {
-  const [numero, setNumero] = useState('0');
-  const [numOperacion, setNumOperacion] = useState('0');
-
-  const ultimoOperador = useRef<Operadores>();
-  console.log('ultimoOperador: ');
-  console.log(ultimoOperador.current);
-
-  const limpiar = () => {
-    setNumero('0');
-    setNumOperacion('0');
-  };
-
-  const armaNumero = (numTex: string) => {
-    // Solo un punto
-    if (numero.includes('.') && numTex === '.') return;
-    // Si inicia con 0 o -
-    if (numero.startsWith('0') || numero.startsWith('-0')) {
-      // Evita muchos ceros al inicio o muchos puntos
-      if (numTex === '0' && !numero.includes('.')) return;
-      // Sustituye a solo 0 o -0
-      if (numTex !== '.') {
-        if (numero.startsWith('-0.') || numero.startsWith('0.')) {
-          setNumero(numero + numTex);
-          return;
-        }
-        setNumero(numero.startsWith('-') ? '-' + numTex : numTex);
-        return;
-      }
-    }
-    setNumero(numero + numTex);
-  };
-
-  /** Cambia signo a resultado o numero actual */
-  const cambiaSigno = () => {
-    setNumero(numero.includes('-') ? numero.replace('-', '') : '-' + numero);
-  };
-
-  /** Borra ultimo digito */
-  const borrar = () => {
-    if (numero.length < 3) {
-      if (numero.startsWith('-') || numero.length === 1) {
-        setNumero('0');
-        return;
-      }
-    }
-    setNumero(numero.slice(0, -1));
-  };
-
-  /** Calcula operacion */
-  const calcular = () => {
-    if (numOperacion.startsWith('Error')) {
-      setNumOperacion('0');
-      setNumero('0');
-      return;
-    }
-    const num1 = Number(numOperacion);
-    const num2 = Number(numero);
-    let ant = '0';
-    switch (ultimoOperador.current) {
-      case Operadores.sum:
-        setNumero(`${num1 + num2}`);
-        break;
-      case Operadores.res:
-        setNumero(`${num1 - num2}`);
-        break;
-      case Operadores.mul:
-        setNumero(`${num1 * num2}`);
-        break;
-      case Operadores.div:
-        if (num2) {
-          setNumero(`${num1 / num2}`);
-        } else {
-          ant = 'Error div 0';
-          setNumero('0');
-        }
-        break;
-    }
-    setNumOperacion(ant);
-  };
-
-  /** Asigna numero pequeño */
-  const numAnterior = () => {
-    setNumOperacion(numero.endsWith('.') ? numero.slice(0, -1) : numero);
-    setNumero('0');
-  };
-
-  /** Operadores */
-  const opDiv = () => {
-    numAnterior();
-    ultimoOperador.current = Operadores.div;
-  };
-
-  const opMul = () => {
-    numAnterior();
-    ultimoOperador.current = Operadores.mul;
-  };
-
-  const opRes = () => {
-    numAnterior();
-    ultimoOperador.current = Operadores.res;
-  };
-
-  const opSum = () => {
-    numAnterior();
-    ultimoOperador.current = Operadores.sum;
-  };
+  const {
+    armaNumero,
+    borrar,
+    calcular,
+    cambiaSigno,
+    limpiar,
+    numOperacion,
+    numero,
+    opDiv,
+    opMul,
+    opRes,
+    opSum,
+  } = useCalculadora();
 
   return (
     <View style={styles.container}>
